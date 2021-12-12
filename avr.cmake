@@ -1,11 +1,7 @@
-# Note: AVR toolchain settings were derived from 
-# https://www.kuon.ch/post/2018-07-11-avr-cmake/
-
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR avr)
 
 set(MCU atmega328p)
-set(PROG_TYPE arduino)
 
 set(CMAKE_CXX_COMPILER avr-g++)
 set(CMAKE_C_COMPILER avr-gcc)
