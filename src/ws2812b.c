@@ -19,6 +19,12 @@
 #define TX_PORT PORTB
 #define TX_PIN 0x0 
 
+typedef struct colour {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} colour;
+
 void send_bit(uint8_t pin, uint8_t value)
 {
     volatile uint8_t high = 0;
@@ -43,15 +49,15 @@ void send_bit(uint8_t pin, uint8_t value)
         "   and %[reg2], %[reg1]"     "\n\t"
         "   out %[port], %[reg1]"     "\n\t"
 
-        "high:                 "     "\n\t"
-        "   dec %[high]        "     "\n\t"
-        "   brne high          "     "\n\t"
+        "high:                  "     "\n\t"
+        "   dec %[high]         "     "\n\t"
+        "   brne high           "     "\n\t"
 
-        "   out %[port], 0"     "\n\t"
+        "   out %[port], %[reg2]"     "\n\t"
 
-        "low:                  "     "\n\t"
-        "   dec %[low]         "     "\n\t"
-        "   brne low           "     "\n\t"
+        "low:                   "     "\n\t"
+        "   dec %[low]          "     "\n\t"
+        "   brne low            "     "\n\t"
 
       :
       : [reg1]  "r" (reg1),
@@ -71,17 +77,24 @@ void send_byte(uint8_t pin, uint8_t byte)
     }
 }
 
+void send_colour(uint8_t port, colour c)
+{
+    send_byte(port, c.g);
+    send_byte(port, c.r);
+    send_byte(port, c.b);
+}
+
 int main ()
 {
     DDRB |= 1 << TX_PIN;
 
-    while(1) {
-        _delay_us(500);
+    colour red = { .r = 0x10, .g = 0x0, .b = 0x0 };
 
-        for (size_t i = 0; i < 10; i++) {
-            send_byte(TX_PIN, 0x00);
-            send_byte(TX_PIN, 0xF0);
-            send_byte(TX_PIN, 0x00);
+    while(1) {
+        _delay_ms(1);
+
+        for (size_t i = 0; i < 31; i++) {
+            send_colour(TX_PIN, red);
         }
 
   }
