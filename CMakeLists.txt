@@ -40,8 +40,6 @@ if (${CMAKE_SYSTEM_PROCESSOR} MATCHES avr)
     add_custom_target(strip ALL avr-strip ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.elf DEPENDS ${PROJECT_NAME})
     add_custom_target(hex ALL avr-objcopy -R .eeprom -O ihex ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.elf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.hex DEPENDS strip)
     add_custom_target(eeprom avr-objcopy -j .eeprom  --set-section-flags=.eeprom="alloc,load"  --change-section-lma .eeprom=0 -O ihex ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.elf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.eep DEPENDS strip)
-    add_custom_target(upload avrdude -F -V -c ${PROG_TYPE} -p ${MCU} -P COM3 -U flash:w:${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.hex DEPENDS hex)
-    add_custom_target(upload_eeprom avrdude -F -V -c ${PROG_TYPE} -p ${MCU} -P COM3 -U eeprom:w:${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.eep DEPENDS eeprom)
 
     set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.hex;${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.eeprom;${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.lst")
 endif()
