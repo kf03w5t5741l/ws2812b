@@ -12,7 +12,6 @@ int main (void)
   DDRB |= 0x20;
 
   while(1) {
-
     asm volatile(
       "sbi %[port], %[bit]"   "\n\t"
       : 
@@ -26,6 +25,5 @@ int main (void)
       : [port] "I" (_SFR_IO_ADDR(PORTB)), [bit]  "M" (0x5)
     );
     _delay_ms(DELAY_OFF);
-
   }
 }
