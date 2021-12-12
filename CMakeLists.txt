@@ -1,5 +1,3 @@
-# Note: AVR options were derived from 
-# https://www.kuon.ch/post/2018-07-11-avr-cmake/
 
 cmake_minimum_required(VERSION 3.10)
 
@@ -8,11 +6,6 @@ project(
     VERSION 0.1
     LANGUAGES C
 )
-
-set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_CXX_COMPILER avr-g++)
-set(CMAKE_C_COMPILER avr-gcc)
-set(CMAKE_ASM_COMPILER avr-gcc)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
@@ -30,22 +23,19 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(MCU atmega328p)
-set(PROG_TYPE arduino)
-
 add_compile_options(
-    -mmcu=${MCU}
-    -Os
     -Wall
     -Wextra
     -pedantic
     -Werror
 )
 
-set(CMAKE_EXE_LINKER_FLAGS -mmcu=${MCU})
-
 # add the executable
 add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Note: AVR custom target settings were derived from 
+# https://www.kuon.ch/post/2018-07-11-avr-cmake/
+
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}.elf)
 
 add_custom_target(strip ALL avr-strip ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.elf DEPENDS ${PROJECT_NAME})
