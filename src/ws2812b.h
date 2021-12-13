@@ -12,6 +12,8 @@
 #define T0L 4
 #define T1L 2
 
+#define RESET_DELAY_US 300
+
 typedef struct pixel {
     uint8_t r;
     uint8_t g;
@@ -81,5 +83,12 @@ void send_pixel_buf(uint8_t pin, pixel buf[], size_t nmemb)
 {
     for (size_t i = 0; i < nmemb; i++) {
         send_pixel(pin, buf[i]);
+    }
+    _delay_us(RESET_DELAY_US);
+}
+
+void initialize_pixel_buf(pixel buf[], size_t nmemb, pixel c) {
+    for (size_t i = 0; i < nmemb; i++) {
+        buf[i] = c;
     }
 }
