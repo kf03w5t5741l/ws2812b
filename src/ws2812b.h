@@ -40,7 +40,7 @@ void send_bit(uint8_t pin, uint8_t value)
         "   in  %[reg1], %[port]"     "\n\t"    // this implementation 
         "   or  %[reg1],  %[pin]"     "\n\t"    // preserves the DATA_PORT
         "   ldi %[reg2],    0xFF"     "\n\t"    // state and only sets and
-        "   eor %[reg2],  %[pin]"     "\n\t"    // clears the the DATA_PIN bit
+        "   eor %[reg2],  %[pin]"     "\n\t"    // clears the DATA_PIN bit
         "   and %[reg2], %[reg1]"     "\n\t"
         "   out %[port], %[reg1]"     "\n\t"    // set DATA_PIN high
 
