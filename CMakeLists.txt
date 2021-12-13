@@ -15,8 +15,7 @@ link_directories(lib)
 # set input and output directories
 set(SRC_DIR src)
 set(SOURCES
-    #${SRC_DIR}/${PROJECT_NAME}.c
-    ${SRC_DIR}/main.c
+    ${SRC_DIR}/example.c
 )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
