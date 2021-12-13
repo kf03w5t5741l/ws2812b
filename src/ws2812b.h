@@ -7,10 +7,10 @@
 
 #define DATA_PORT PORTB
 
-#define T0H 1   // evaluates to 1 * 3 + 2 + 1 = 6 cycles    (0.375  μs)
-#define T1H 3   // evaluates to 3 * 3 + 2 = 11 cycles       (0.6875 μs)
-#define T0L 4   // evaluates to 4 * 3 + 2 = 14 cycles       (0.875  μs)
-#define T1L 2   // evaluates to 2 * 3 + 2 + 1 = 9 cycles    (0.5625 μs)
+#define T0H 1   // evaluates to 1 * 3 + 2 + 1 = 6 cycles    (0.375 μs)
+#define T1H 3   // evaluates to 3 * 3 + 2 + 1 = 12 cycles   (0.75  μs)
+#define T0L 4   // evaluates to 4 * 3 + 2 = 14 cycles       (0.875 μs)
+#define T1L 2   // evaluates to 2 * 3 + 2 = 8 cycles        (0.5   μs)
 
 #define RESET_DELAY_US 300
 
