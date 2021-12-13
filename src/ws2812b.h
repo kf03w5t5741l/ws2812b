@@ -52,7 +52,7 @@ void send_bit(uint8_t pin, uint8_t value)
 
         "low:                   "     "\n\t"    // voltage low loop:
         "   dec %[low]          "     "\n\t"    // 1 cycle
-        "   brne low            "     "\n\t"    // 2 cycle on brandch, else 1
+        "   brne low            "     "\n\t"    // 2 cycle on branch, else 1
 
       :
       : [reg1]  "r" (reg1),
