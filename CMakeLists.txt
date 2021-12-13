@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(
-	ws2812b
+    ws2812b
     VERSION 0.1
     LANGUAGES C
 )
