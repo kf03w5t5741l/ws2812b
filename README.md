@@ -1,6 +1,6 @@
 # WS2812B
 
-ATmega328P driver for WS2812/WS2812B LED strips. Features: not many. Includes tasty AVR assembly. Tested on an Arduino Uno with the WS2812B chip.
+ATmega328P driver library for WS2812/WS2812B LED strips. Features: not many. Includes tasty AVR assembly. Tested on an Arduino Uno with the WS2812B chip.
 
 ## Usage
 
