@@ -16,9 +16,7 @@ ATmega328P driver for WS2812/WS2812B LED strips. Features: not many. Includes ta
 #include "ws2812b.h"
 
 #define DELAY_MS 10
-
 #define DATA_PIN 0x0 
-
 #define PIXELS 30
 
 int main ()
@@ -49,7 +47,6 @@ int main ()
 
         // wait 10ms before shifting the pixels again
         _delay_ms(DELAY_MS);
-
     }
 }
 ```

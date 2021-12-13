@@ -9,9 +9,7 @@
 #include "ws2812b.h"
 
 #define DELAY_US 8000 
-
 #define DATA_PIN 0x0 
-
 #define PIXELS 30
 
 int main ()
