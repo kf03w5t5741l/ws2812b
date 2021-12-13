@@ -61,9 +61,9 @@ int main ()
 
 ### Build instructions
 
-> **_All:_** Check and adjust the `avrdude` port and programmer parameters before executing `run.sh`.
+> **_All:_** Check and adjust the `avrdude` port and programmer arguments before executing `run.sh`.
 
-> **_Linux users:_** You may need to modify `build.sh` and `run.sh` so that the `-DCMAKE_TOOLCHAIN_FILE` parameter reflects the full path to the `avr.cmake` file.
+> **_Linux users:_** You may need to modify `build.sh` and `run.sh` so that the `-DCMAKE_TOOLCHAIN_FILE` argument reflects the full path to the `avr.cmake` file.
 
 Run `build.sh` to build. Run `run.sh` to build and upload with `avrdude`.
 
