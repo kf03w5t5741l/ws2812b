@@ -1,29 +1,22 @@
-#define __AVR_ATmega32U4__
+#pragma once
 #include <avr/io.h>
 #include <inttypes.h>
 #include <stddef.h>
 
-#define F_CPU 16000000UL
-#include <util/delay.h>
-
 #define BYTE_BITS 8
 
-#define DELAY_ON 900
-#define DELAY_OFF 900
+#define DATA_PORT PORTB
 
 #define T0H 2
-#define T1H 6
-#define T0L 6
-#define T1L 3
+#define T1H 4
+#define T0L 4
+#define T1L 2
 
-#define TX_PORT PORTB
-#define TX_PIN 0x0 
-
-typedef struct colour {
+typedef struct pixel {
     uint8_t r;
     uint8_t g;
     uint8_t b;
-} colour;
+} pixel;
 
 void send_bit(uint8_t pin, uint8_t value)
 {
@@ -62,7 +55,7 @@ void send_bit(uint8_t pin, uint8_t value)
       :
       : [reg1]  "r" (reg1),
         [reg2]  "r" (reg2),
-        [port]  "I" (_SFR_IO_ADDR(TX_PORT)),
+        [port]  "I" (_SFR_IO_ADDR(DATA_PORT)),
         [pin]   "r" (1 << pin),
         [high]  "r" (high),
         [low]   "r" (low)
@@ -77,25 +70,16 @@ void send_byte(uint8_t pin, uint8_t byte)
     }
 }
 
-void send_colour(uint8_t port, colour c)
+void send_pixel(uint8_t pin, pixel c)
 {
-    send_byte(port, c.g);
-    send_byte(port, c.r);
-    send_byte(port, c.b);
+    send_byte(pin, c.g);
+    send_byte(pin, c.r);
+    send_byte(pin, c.b);
 }
 
-int main ()
+void send_pixel_buf(uint8_t pin, pixel buf[], size_t nmemb)
 {
-    DDRB |= 1 << TX_PIN;
-
-    colour red = { .r = 0x10, .g = 0x0, .b = 0x0 };
-
-    while(1) {
-        _delay_ms(1);
-
-        for (size_t i = 0; i < 31; i++) {
-            send_colour(TX_PIN, red);
-        }
-
-  }
+    for (size_t i = 0; i < nmemb; i++) {
+        send_pixel(pin, buf[i]);
+    }
 }
