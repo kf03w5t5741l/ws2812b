@@ -21,7 +21,7 @@ ATmega328P driver library for WS2812/WS2812B LED strips. Features: not many. Inc
 
 int main ()
 {
-    ws2812_set_pin(DATA_PIN);
+    ws2812_setup_pin(DATA_PIN);
 
     pixel black = { .r = 0x00, .g = 0x00, .b = 0x00 };
     pixel red = { .r = 0x50, .g = 0x00, .b = 0x00 };
