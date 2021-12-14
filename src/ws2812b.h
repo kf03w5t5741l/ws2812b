@@ -5,6 +5,7 @@
 
 #define BYTE_BITS 8
 
+#define DATA_DIRECTION_REGISTER DDRB
 #define DATA_PORT PORTB
 
 #define T0H 1   // evaluates to 1 * 3 + 2 + 1 = 6 cycles    (0.375 μs)
@@ -20,7 +21,11 @@ typedef struct pixel {
     uint8_t b;
 } pixel;
 
-void send_bit(uint8_t pin, uint8_t value)
+void ws2812_setup_pin(uint8_t pin) {
+    DATA_DIRECTION_REGISTER |= 1 << pin;
+}
+
+void ws2812_send_bit(uint8_t pin, uint8_t value)
 {
     volatile uint8_t high = 0;
     volatile uint8_t low = 0;
@@ -64,30 +69,30 @@ void send_bit(uint8_t pin, uint8_t value)
     );
 }
 
-void send_byte(uint8_t pin, uint8_t byte)
+void ws2812_send_byte(uint8_t pin, uint8_t byte)
 {
     for (volatile uint8_t i = 0; i < BYTE_BITS; i++) {
         volatile uint8_t bit = byte & 1 << (BYTE_BITS - i - 1);
-        send_bit(pin, bit);
+        ws2812_send_bit(pin, bit);
     }
 }
 
-void send_pixel(uint8_t pin, pixel p)
+void ws2812_send_pixel(uint8_t pin, pixel p)
 {
-    send_byte(pin, p.g);
-    send_byte(pin, p.r);
-    send_byte(pin, p.b);
+    ws2812_send_byte(pin, p.g);
+    ws2812_send_byte(pin, p.r);
+    ws2812_send_byte(pin, p.b);
 }
 
-void send_pixel_buf(uint8_t pin, pixel buf[], size_t nmemb)
+void ws2812_send_pixel_buf(uint8_t pin, pixel buf[], size_t nmemb)
 {
     for (size_t i = 0; i < nmemb; i++) {
-        send_pixel(pin, buf[i]);
+        ws2812_send_pixel(pin, buf[i]);
     }
     _delay_us(RESET_DELAY_US); // pause to signal our transmission has ended
 }
 
-void initialize_pixel_buf(pixel buf[], size_t nmemb, pixel p) {
+void ws2812_initialize_pixel_buf(pixel buf[], size_t nmemb, pixel p) {
     for (size_t i = 0; i < nmemb; i++) {
         buf[i] = p;
     }
