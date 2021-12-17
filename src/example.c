@@ -8,34 +8,36 @@
 
 #include "ws2812b.h"
 
-#define DELAY_US 8000 
+#define DELAY_US 10000
 #define DATA_PIN 0
 #define PIXELS 30
 
 int main ()
 {
     ws2812_setup_pin(DATA_PIN);
-
-    pixel black = { .r = 0x00, .g = 0x00, .b = 0x00 };
-    pixel red = { .r = 0x50, .g = 0x00, .b = 0x00 };
+    _delay_us(DELAY_US);
 
     pixel buf[PIXELS] = { 0 };
-    buf[0] = red;
     const size_t pixels = sizeof(buf) / sizeof(pixel);
 
-    for (size_t i = 0; i < pixels; i++) {
-        ws2812_send_pixel(DATA_PIN, black);
-    }
+    // clear any pixels by sending empty buffer
+    ws2812_send_pixels(DATA_PIN, buf, pixels);
+
+    const pixel red = { .r = 0x50, .g = 0x00, .b = 0x00 };
+    buf[0] = red;
 
     while(1) {
+        // shift all pixels one right for visual effect
         pixel last = buf[pixels - 1];
         for (size_t i = pixels - 1; i > 0; i--) {
             buf[i] = buf[i - 1];
         }
         buf[0] = last;
 
-        ws2812_send_pixel_buf(DATA_PIN, buf, pixels);
+        // transmit our pixel buffer to the LED strip
+        ws2812_send_pixels(DATA_PIN, buf, pixels);
 
+        // wait 10ms
         _delay_us(DELAY_US);
     }
 }
