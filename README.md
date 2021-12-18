@@ -21,17 +21,19 @@ ATmega328P driver library for WS2812/WS2812B LED strips. Features: not many. Inc
 
 int main ()
 {
-    ws2812_setup_pin(DATA_PIN);
+    ws2812b_setup_pin(DATA_PIN);
     _delay_us(DELAY_US);
 
     pixel buf[PIXELS] = { 0 };
     const size_t pixels = sizeof(buf) / sizeof(pixel);
 
     // clear any pixels by sending empty buffer
-    ws2812_send_pixels(DATA_PIN, buf, pixels);
+    ws2812b_send_pixels(DATA_PIN, buf, pixels);
 
-    const pixel red = { .r = 0x50, .g = 0x00, .b = 0x00 };
+    const pixel red = { .r = 0xFF, .g = 0x00, .b = 0x00 };
     buf[0] = red;
+
+    ws2812b_initialize_pixel_buf(buf, pixels, red);
 
     while(1) {
         // shift all pixels one right for visual effect
@@ -42,7 +44,7 @@ int main ()
         buf[0] = last;
 
         // transmit our pixel buffer to the LED strip
-        ws2812_send_pixels(DATA_PIN, buf, pixels);
+        ws2812b_send_pixels(DATA_PIN, buf, pixels);
 
         // wait 10ms
         _delay_us(DELAY_US);

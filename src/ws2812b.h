@@ -1,6 +1,7 @@
 #pragma once
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 #include <inttypes.h>
 #include <stddef.h>
 
@@ -22,11 +23,11 @@ typedef struct pixel {
     uint8_t b;
 } pixel;
 
-void ws2812_setup_pin(uint8_t pin) {
+void ws2812b_setup_pin(uint8_t pin) {
     DATA_DIRECTION_REGISTER |= 1 << pin;
 }
 
-void ws2812_send_bytes(uint8_t pin, uint8_t buf[], uint8_t nmemb)
+void ws2812b_send_bytes(uint8_t pin, uint8_t buf[], uint8_t nmemb)
 {
     volatile uint8_t reg1, reg2, val, bit, high, low;
 
@@ -64,7 +65,7 @@ void ws2812_send_bytes(uint8_t pin, uint8_t buf[], uint8_t nmemb)
         "   brne keephigh           "    "\n\t"
 
         "low:                       "    "\n\t"
-        "   out %[port], %[reg2]    "    "\n\t"    // set bit low
+        "   out %[port], %[reg2]    "    "\n\t"    // set DATA_PIN low
 
         "keeplow:                   "    "\n\t"    // voltage low loop
         "   dec %[low]              "    "\n\t"
@@ -97,13 +98,13 @@ void ws2812_send_bytes(uint8_t pin, uint8_t buf[], uint8_t nmemb)
 
 }
 
-void ws2812_send_pixels(uint8_t pin, pixel buf[], size_t nmemb)
+void ws2812b_send_pixels(uint8_t pin, pixel buf[], size_t nmemb)
 {
-    ws2812_send_bytes(pin, (uint8_t*) buf, nmemb * sizeof(pixel));
+    ws2812b_send_bytes(pin, (uint8_t*) buf, nmemb * sizeof(pixel));
     _delay_us(RESET_DELAY_US);      // pause to signal end of transmission
 }
 
-void ws2812_initialize_pixel_buf(pixel buf[], size_t nmemb, pixel p) {
+void ws2812b_initialize_pixel_buf(pixel buf[], size_t nmemb, pixel p) {
     for (size_t i = 0; i < nmemb; i++) {
         buf[i] = p;
     }
